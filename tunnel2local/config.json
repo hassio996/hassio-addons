@@ -4,6 +4,7 @@
   "slug": "tunnel2local",
   "description": "Browser the Home Assistant From Internet",
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
+  "url": "https://github.com/zhujisheng/hassio-addons/tree/master/tunnel2local",
   "startup": "before",
   "boot": "auto",
   "options": {
