@@ -42,6 +42,6 @@ add-on中预置了文件`/cough.pb`和`/hey-mycroft.pb`，对应咳嗽声音与`
 
 - 配置
 
-  可以通过Add-on:Samba，将模型文件`xxxxx.pb`和`xxxxx.pb.params`（或者`xxx.net`)放置在共享的`share/mycroft-precise/`目录中
+  可以通过Add-on:Samba，将模型文件`xxxxx.pb`和`xxxxx.pb.params`（或者`xxx.net`)放置在共享的`share/`目录中
 
-  在配置中，`model_file`设置为`/share/xxxxx.pb`(或者`/share/xxxxx.net`)
+  在配置中，设置`model_file`为`/share/xxxxx.pb`(或者`/share/xxxxx.net`)
