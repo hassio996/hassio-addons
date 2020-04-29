@@ -10,7 +10,7 @@
   "boot": "auto",
   "audio": true,
   "map": ["share"],
-  "image": "zhujisheng/{arch}-addon-name",
+  "image": "zhujisheng/{arch}-addon-mycroft_precise",
   "options": {
     "models":[
       {
