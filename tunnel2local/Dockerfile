@@ -7,7 +7,6 @@ ENV LANG C.UTF-8
 ARG BUILD_ARCH
 COPY frpc_${BUILD_ARCH} /frpc
 RUN chmod a+x /frpc
-RUN echo frpc_${BUILD_ARCH} > /tmp.abc
 COPY run.sh /
 RUN chmod a+x /run.sh
 
