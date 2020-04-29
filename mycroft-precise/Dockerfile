@@ -13,12 +13,12 @@ RUN pip3 install requests
 # precise-engine
 ARG BUILD_ARCH
 
-RUN if [ "$BUILD_ARCH" = "armv7" ]; then wget https://github.com/MycroftAI/mycroft-precise/releases/download/v0.3.0/precise-engine_0.3.0_armv7l.tar.gz ; fi
-RUN if [ "$BUILD_ARCH" = "armhf" ]; then wget https://github.com/MycroftAI/mycroft-precise/releases/download/v0.3.0/precise-engine_0.3.0_armv7l.tar.gz ; fi
-RUN if [ "$BUILD_ARCH" = "aarch64" ]; then wget https://github.com/MycroftAI/mycroft-precise/releases/download/v0.3.0/precise-engine_0.3.0_aarch64.tar.gz ; fi
-RUN if [ "$BUILD_ARCH" = "adm64" ]; then wget https://github.com/MycroftAI/mycroft-precise/releases/download/v0.3.0/precise-engine_0.3.0_x86_64.tar.gz ; fi
+RUN if [ "$BUILD_ARCH" = "armv7" ]; then wget https://github.com/MycroftAI/mycroft-precise/releases/download/v0.3.0/precise-engine_0.3.0_armv7l.tar.gz && tar xvf precise-engine_0.3.0_armv7l.tar.gz ; fi
+RUN if [ "$BUILD_ARCH" = "armhf" ]; then wget https://github.com/MycroftAI/mycroft-precise/releases/download/v0.3.0/precise-engine_0.3.0_armv7l.tar.gz && tar xvf precise-engine_0.3.0_armv7l.tar.gz ; fi
+RUN if [ "$BUILD_ARCH" = "aarch64" ]; then wget https://github.com/MycroftAI/mycroft-precise/releases/download/v0.3.0/precise-engine_0.3.0_aarch64.tar.gz && tar xvf precise-engine_0.3.0_aarch64.tar.gz ; fi
+RUN if [ "$BUILD_ARCH" = "adm64" ]; then wget https://github.com/MycroftAI/mycroft-precise/releases/download/v0.3.0/precise-engine_0.3.0_x86_64.tar.gz && tar xvf precise-engine_0.3.0_x86_64.tar.gz ; fi
 
-RUN tar xvf precise-engine_*.tar.gz
+#RUN tar xvf precise-engine_*.tar.gz
 
 # copy
 COPY *.pb /
