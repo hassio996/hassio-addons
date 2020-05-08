@@ -13,3 +13,7 @@ some addons for hassio
 - [simple-proxy](https://github.com/zhujisheng/hassio-addons/tree/master/simple-proxy)
 
   一个简单的墙梯
+
+- [voice_assistant](https://github.com/zhujisheng/hassio-addons/tree/master/voice_assistant)
+
+  智能音箱
