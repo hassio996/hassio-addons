@@ -5,10 +5,10 @@ ENV LANG C.UTF-8
 
 # Install
 RUN apt-get update
-RUN apt-get install -y libasound2-plugins python3 python3-distutils portaudio19-dev python3-pyaudio wget
+RUN apt-get install -y libasound2-plugins python3 python3-distutils portaudio19-dev python3-pyaudio wget flac
 RUN wget https://bootstrap.pypa.io/get-pip.py
 RUN python3 get-pip.py
-RUN pip3 install requests
+RUN pip3 install requests fuzzywuzzy
 
 # precise-engine
 ARG BUILD_ARCH
@@ -24,10 +24,20 @@ RUN if [ "$BUILD_ARCH" = "adm64" ]; then wget https://github.com/MycroftAI/mycro
 # copy
 COPY *.pb /
 COPY *.pb.params /
+
 COPY runner.py /
 COPY run.py /
+COPY voice_assistant.py /
+
+RUN mkdir /audio
+COPY ding.wav /audio/
+COPY dong.wav /audio/
 
 # daemon
 RUN chmod a+x /run.py
 
-CMD ["/run.py"]
+COPY run.sh /
+RUN chmod a+x /run.sh
+CMD ["/run.sh"]
+
+#CMD ["/run.py"]
