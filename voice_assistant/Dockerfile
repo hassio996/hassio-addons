@@ -8,7 +8,7 @@ RUN apt-get update
 RUN apt-get install -y libasound2-plugins python3 python3-distutils portaudio19-dev python3-pyaudio wget flac
 RUN wget https://bootstrap.pypa.io/get-pip.py
 RUN python3 get-pip.py
-RUN pip3 install requests fuzzywuzzy
+RUN pip3 install requests fuzzywuzzy dnspython
 
 # precise-engine
 ARG BUILD_ARCH
@@ -32,6 +32,8 @@ COPY voice_assistant.py /
 RUN mkdir /audio
 COPY ding.wav /audio/
 COPY dong.wav /audio/
+
+COPY gdns.conf /
 
 # daemon
 RUN chmod a+x /run.py

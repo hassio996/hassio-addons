@@ -1,19 +1,71 @@
 #!/usr/bin/env python3
 
-import json, atexit, time, wave, io, subprocess
+import json, atexit, time, wave, io, subprocess, re, socket
+import dns.resolver
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 from urllib.error import URLError, HTTPError
 from threading import Thread
 from runner import PreciseEngine, TriggerDetector
 
+class SocketReadStream(object):
+  """
+  A Class only read the socket
+  """
+  def __init__(self, conn_str):
+    r=re.match(r'^(.*):(\d+)$',conn_str)
+    self._server = (r.group(1),int(r.group(2)))
+    self._buffer = b''
+    self._SocketInit()
+
+  def _SocketInit():
+    self._sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    self._sock.settimeout(5)
+    self._connected = False
+
+  def read(self, n):
+    try:
+        if not self._connected:
+            self._sock.connect(self._server)
+            self._connected = True;
+            print('Connecting to %s:%d'%self._server, flush=True)
+
+        if len(self._buffer)>=n:
+          recvData = b''
+        else:
+          recvData = self._sock.recv(n-len(self._buffer))
+        if len(recvData)==0:
+            self._sock.close()
+            self._SocketInit()
+            print('Receive none from %s:%d, Disconnect it.'%self._server, flush=True)
+
+        self._buffer += recvData
+        if len(self._buffer)>=n:
+          chunk = self._buffer[:n]
+          self._buffer = self._buffer[n:]
+          return chunk
+
+    except socket.timeout:
+        print('Timeout. Reconnecting ...')
+        self._sock.close()
+        self._SocketInit()
+    except (socket.error, OSError):
+        print('Connection failed. Reconnecting after 5s ...')
+        self._sock.close()
+        time.sleep(5)
+        self._SocketInit()
+
 def get_input_stream( name ):
   if(name=="local_default"):
     import pyaudio
     pa = pyaudio.PyAudio()
     stream = pa.open(16000, 1, pyaudio.paInt16, True, frames_per_buffer=CHUCK_SIZE)
-  if getattr(stream.read, '__func__', None) is pyaudio.Stream.read:
+#  if getattr(stream.read, '__func__', None) is pyaudio.Stream.read:
     stream.read = lambda x: pyaudio.Stream.read(stream, x // 2, False)
+  elif(re.match(r'^.*:\d+$',name)):
+    stream = SocketReadStream(name)
+  else:
+    stream = None
   return stream
 
 def get_func( func_str ):
@@ -50,6 +102,8 @@ def get_flac_data( wav_data ):
 
 def recognize_google_cn(flac_data, language="zh-CN", pfilter=0, show_all=False):
 
+        dns.resolver.override_system_resolver(dns.resolver.Resolver(filename='/gdns.conf'))
+
         key = "AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw"
         url = "http://www.google.cn/speech-api/v2/recognize?{}".format(urlencode({
                   "client": "chromium",
@@ -67,6 +121,8 @@ def recognize_google_cn(flac_data, language="zh-CN", pfilter=0, show_all=False):
         except URLError as e:
             print("recognition connection failed: {}".format(e.reason),flush=True)
         response_text = response.read().decode("utf-8")
+
+        dns.resolver.restore_system_resolver()
 
         # ignore any blank blocks
         actual_result = []

@@ -27,7 +27,7 @@
 
 ## 【HomeAssitant中的配置】
 
-使用本语音助手，需要实现在HomeAssistant中配置以下项目：
+使用本语音助手，需要事先在HomeAssistant中配置以下项目：
 
 - 一个或多个媒体播放器
 - 一个或多个tts服务
