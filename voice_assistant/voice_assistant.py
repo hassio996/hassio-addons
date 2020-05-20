@@ -38,7 +38,7 @@ def intent_process( speech_in ):
   try:
     return r.json()['speech']['plain']['speech']
   except:
-    print("The intents return format is wrong: ", r.text)
+    print("The intents return format is wrong: ", r.text, flush=True)
     return r.text
 
 def waken( tts='tts.google_translate_say', media_player='all' ):
@@ -52,6 +52,6 @@ def recvd( tts='tts.google_translate_say', media_player='all' ):
 
 def react( speech_in, tts='tts.google_translate_say', media_player='all' ):
   """获得语音命令文本后的处理函数"""
-  print("catch the input speech: ", speech_in)
+  print("catch the input speech: ", speech_in, flush=True)
   speech_out = intent_process( speech_in )
   play_tts( speech_out, tts, media_player )

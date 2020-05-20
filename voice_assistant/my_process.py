@@ -32,7 +32,7 @@ def get_state(entity_id, attribute=None):
     else:
       return value.json()["state"]
   except:
-    print("The intents return format is wrong: ", value.text)
+    print("The intents return format is wrong: ", value.text, flush=True)
     return value.text
 
 def post_service( service, data=None ):
@@ -64,7 +64,7 @@ def recvd( tts='tts.google_translate_say', media_player='all' ):
 
 def react( speech_in, tts='tts.google_translate_say', media_player='all' ):
   """获得语音命令文本后的处理函数"""
-  print("catch the input speech: ", speech_in)
+  print("catch the input speech: ", speech_in, flush=True)
 
   match = process.extractOne( speech_in, commands )
   if match[1] < 10:

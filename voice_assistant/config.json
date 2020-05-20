@@ -1,6 +1,6 @@
 {
   "name": "Voice Assistant",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "slug": "voice_assistant",
   "description": "a voice assistant",
   "arch": ["armhf", "armv7", "aarch64", "amd64"],
