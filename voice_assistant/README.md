@@ -76,7 +76,11 @@ intent_script:
 
 音频输入设备。
 
-取值：`local_default`，表示缺省的音频输入设备（在add-on的`audio`配置中选择）。当前不能设置其它值，未来会增加远程麦克风配置。
+取值：`local_default`，表示缺省的音频输入设备（在add-on的`audio`配置中选择）。
+
+远程麦克风：配置格式为`ip地址:端口号`，例如`192.168.1.120:3344`
+
+远程麦克风本身的安装与配置，参见相关课程[《HomeAssistant智能家居实战篇》](https://study.163.com/course/courseMain.htm?courseId=1006189053&share=2&shareId=400000000624093)中[《接入HomeAssistant的远程麦克风》](https://study.163.com/course/courseLearn.htm?courseId=1006189053&share=2&shareId=400000000624093#/learn/video?lessonId=1279002359&courseId=1006189053)
 
 #### `output_entity_id`
 
@@ -137,7 +141,7 @@ intent_script:
 你可以定义自己的`op_react`处理函数。
 
 
-## 定义自己的处理函数
+## 【定义自己的处理函数】
 
 ![处理过程](https://github.com/zhujisheng/hassio-addons/raw/master/voice_assistant/process.JPG)
 

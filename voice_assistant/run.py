@@ -18,53 +18,51 @@ class SocketReadStream(object):
     self._buffer = b''
     self._SocketInit()
 
-  def _SocketInit():
+  def _SocketInit(self):
     self._sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     self._sock.settimeout(5)
     self._connected = False
 
   def read(self, n):
-    try:
+    while len(self._buffer)<n:
+      try:
         if not self._connected:
             self._sock.connect(self._server)
             self._connected = True;
             print('Connecting to %s:%d'%self._server, flush=True)
 
-        if len(self._buffer)>=n:
-          recvData = b''
-        else:
-          recvData = self._sock.recv(n-len(self._buffer))
+        recvData = self._sock.recv(n-len(self._buffer))
         if len(recvData)==0:
             self._sock.close()
             self._SocketInit()
             print('Receive none from %s:%d, Disconnect it.'%self._server, flush=True)
 
         self._buffer += recvData
-        if len(self._buffer)>=n:
-          chunk = self._buffer[:n]
-          self._buffer = self._buffer[n:]
-          return chunk
 
-    except socket.timeout:
-        print('Timeout. Reconnecting ...')
+      except socket.timeout:
+        print('%s:%d Timeout. Reconnecting ...'%self._server, flush=True)
         self._sock.close()
         self._SocketInit()
-    except (socket.error, OSError):
-        print('Connection failed. Reconnecting after 5s ...')
+      except (socket.error, OSError):
+        print('%s:%d Connection failed. Reconnecting after 5s ...'%self._server, flush=True)
         self._sock.close()
         time.sleep(5)
         self._SocketInit()
+
+    chunk = self._buffer[:n]
+    self._buffer = self._buffer[n:]
+    return chunk
 
 def get_input_stream( name ):
   if(name=="local_default"):
     import pyaudio
     pa = pyaudio.PyAudio()
     stream = pa.open(16000, 1, pyaudio.paInt16, True, frames_per_buffer=CHUCK_SIZE)
-#  if getattr(stream.read, '__func__', None) is pyaudio.Stream.read:
     stream.read = lambda x: pyaudio.Stream.read(stream, x // 2, False)
   elif(re.match(r'^.*:\d+$',name)):
     stream = SocketReadStream(name)
   else:
+    print("configuration input_device format error",flush=True)
     stream = None
   return stream
 
