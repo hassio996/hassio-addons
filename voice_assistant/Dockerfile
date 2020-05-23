@@ -33,8 +33,6 @@ RUN mkdir /audio
 COPY ding.wav /audio/
 COPY dong.wav /audio/
 
-COPY gdns.conf /
-
 # daemon
 RUN chmod a+x /run.py
 

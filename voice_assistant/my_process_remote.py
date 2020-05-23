@@ -11,11 +11,6 @@ commands = { 1:'现在几度',
              6:'关上厨房灯'
             }
 
-# 开放的http服务主机名和端口（其中包含ding.wav和dang.wav）
-with open('/etc/hostname') as r:
-  hostname = r.read().split('\n')[0]
-  port = 8000
-
 # 访问HA的http请求head
 headers = {
     "Authorization": "Bearer " + os.getenv('SUPERVISOR_TOKEN'),
@@ -50,17 +45,20 @@ def play_tts( speech_out, tts, media_player ):
   return post(url, headers=headers, json=data)
 
 def waken( tts='tts.google_translate_say', media_player='all' ):
-  """唤醒后的处理函数"""
-  data = { "entity_id": media_player,
-           "media_content_id": "http://%s:%d/%s"%(hostname,port,"ding.wav"),
-           "media_content_type": "music"
+  """唤醒后的处理函数: 闪烁远程麦克风上的灯"""
+  data = { "entity_id": "light.miclight",
+           "effect": "Strobe"
          }
-  post_service( "media_player.play_media", data )
+  post_service( "light.turn_on", data )
   print("voice assistant is waken", flush=True)
 
 def recvd( tts='tts.google_translate_say', media_player='all' ):
   """语音命令接收完成后的处理函数"""
-  play_tts( '收到！', tts, media_player )
+  data = { "entity_id": "light.miclight",
+           "effect": None,
+           "brightness": 255
+         }
+  post_service( "light.turn_on", data )
 
 def react( speech_in, tts='tts.google_translate_say', media_player='all' ):
   """获得语音命令文本后的处理函数"""
@@ -93,3 +91,6 @@ def react( speech_in, tts='tts.google_translate_say', media_player='all' ):
 
   if speech_out:
     play_tts( speech_out, tts, media_player )
+
+  data = { "entity_id": "light.miclight" }
+  post_service( "light.turn_off", data )

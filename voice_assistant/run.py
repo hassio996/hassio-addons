@@ -100,10 +100,26 @@ def get_flac_data( wav_data ):
 
 def recognize_google_cn(flac_data, language="zh-CN", pfilter=0, show_all=False):
 
-        dns.resolver.override_system_resolver(dns.resolver.Resolver(filename='/gdns.conf'))
-
         key = "AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw"
-        url = "http://www.google.cn/speech-api/v2/recognize?{}".format(urlencode({
+
+#        server = 'www.google.com.cn'
+#        resolver = dns.resolver.Resolver(configure=False)
+#        resolver.nameservers=['8.8.8.8']
+#        google_ip=resolver.query(server,'A')[0].address
+#
+#        url = "http://{}/speech-api/v2/recognize?{}".format(
+#                  google_ip,
+#                  urlencode({
+#                  "client": "chromium",
+#                  "lang": language,
+#                  "key": key,
+#                  "pFilter": pfilter
+#                  }))
+#        request = Request(url,
+#                          origin_req_host=server,
+#                          data=flac_data,
+#                          headers={"Content-Type": "audio/x-flac; rate=16000"})
+        url = "http://www.google.com.cn/speech-api/v2/recognize?{}".format(urlencode({
                   "client": "chromium",
                   "lang": language,
                   "key": key,
@@ -119,8 +135,6 @@ def recognize_google_cn(flac_data, language="zh-CN", pfilter=0, show_all=False):
         except URLError as e:
             print("recognition connection failed: {}".format(e.reason),flush=True)
         response_text = response.read().decode("utf-8")
-
-        dns.resolver.restore_system_resolver()
 
         # ignore any blank blocks
         actual_result = []
@@ -189,7 +203,7 @@ def handle_predictions( va ):
 
 
 CHUCK_SIZE = 2048
-CHUCKS_TO_READ = int(5*2*16000/2048)
+CHUCKS_TO_READ = int(4.5*2*16000/2048)
 
 CONFIG_PATH = "/data/options.json"
 with open(CONFIG_PATH) as fp:
