@@ -50,19 +50,17 @@ def waken( tts='tts.google_translate_say', media_player='all' ):
            "effect": "Strobe"
          }
   post_service( "light.turn_on", data )
-  print("voice assistant is waken", flush=True)
 
 def recvd( tts='tts.google_translate_say', media_player='all' ):
   """语音命令接收完成后的处理函数"""
   data = { "entity_id": "light.miclight",
-           "effect": None,
+           "effect": "None",
            "brightness": 255
          }
   post_service( "light.turn_on", data )
 
 def react( speech_in, tts='tts.google_translate_say', media_player='all' ):
   """获得语音命令文本后的处理函数"""
-  print("catch the input speech: ", speech_in, flush=True)
 
   match = process.extractOne( speech_in, commands )
   if match[1] < 10:

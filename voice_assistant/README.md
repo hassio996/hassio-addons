@@ -153,6 +153,8 @@ intent_script:
 
   将此文件保存在Samba共享的`/share`目录中
 
+  注：另一个样例程序[my_process_remote.py](https://github.com/zhujisheng/hassio-addons/blob/master/voice_assistant/my_process_remote.py)也可以参考，区别在于以远程麦克风上的灯来提示唤醒，而不是使用`叮咚`声。
+
 - add-on中配置
 
   ```

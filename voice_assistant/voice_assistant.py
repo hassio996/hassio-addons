@@ -44,7 +44,6 @@ def intent_process( speech_in ):
 def waken( tts='tts.google_translate_say', media_player='all' ):
   """唤醒后的处理函数"""
   play_media(media_player, "ding.wav")
-  print("voice assistant is waken", flush=True)
 
 def recvd( tts='tts.google_translate_say', media_player='all' ):
   """读入语音命定后的处理函数"""
@@ -52,6 +51,5 @@ def recvd( tts='tts.google_translate_say', media_player='all' ):
 
 def react( speech_in, tts='tts.google_translate_say', media_player='all' ):
   """获得语音命令文本后的处理函数"""
-  print("catch the input speech: ", speech_in, flush=True)
   speech_out = intent_process( speech_in )
   play_tts( speech_out, tts, media_player )
