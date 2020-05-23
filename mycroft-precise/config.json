@@ -1,6 +1,6 @@
 {
   "name": "Mycroft Precise",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "slug": "mycroft_precise",
   "description": "a wake word listener",
   "url": "https://github.com/zhujisheng/hassio-addons/",
