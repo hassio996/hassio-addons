@@ -192,14 +192,14 @@ def handle_predictions( va ):
     if show_match_level_realtime:
       matches[input_device].append(prob)
     if detector.update(prob):
-      print(input_device, " is waken", flush=True)
+      print(input_device, "waked", flush=True)
       func_waken(tts_service, output_entity_id)
       audio = stream_in.read(CHUCK_SIZE*CHUCKS_TO_READ)
       func_recvd(tts_service, output_entity_id)
       wav_data = get_wav_data( audio )
       flac_data = get_flac_data(wav_data)
       speech_in = recognize_google_cn(flac_data)
-      print(input_device, " catch the input speech: ", speech_in, flush=True)
+      print(input_device, "catch the input speech: ", speech_in, flush=True)
       func_react(speech_in, tts_service, output_entity_id)
 
 
