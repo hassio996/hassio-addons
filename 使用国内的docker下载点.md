@@ -1,0 +1,53 @@
+# 使用国内的docker下载点
+
+通过设置docker的下载点为国内的点，可以加速hassio安装过程中下载docker镜像的速度——如果你是在中国大陆的话。
+
+操作：
+
+- 编辑文件`/etc/docker/daemon.json`，内容：
+
+  ```json
+  { 
+    "registry-mirrors": [ 
+    "https://rw21enj1.mirror.aliyuncs.com",
+    "https://dockerhub.azk8s.cn",
+    "https://reg-mirror.qiniu.com",
+    "https://hub-mirror.c.163.com",
+    "https://docker.mirrors.ustc.edu.cn"
+    ]
+  }
+  ```
+
+- 重新加载服务
+
+  `sudo systemctl daemon-reload`
+
+- 重新启动系统
+
+  `sudo reboot`
+
+- 检查
+
+  运行`docker info`，查看其中`Registry Mirrors`信息
+
+你也可以将以下脚本保存到本地直接执行：
+
+```bash
+#!/bin/bash
+if [ ! -d /etc/docker ];then
+   sudo mkdir -p /etc/docker
+fi
+cat << EOF | sudo tee /etc/docker/daemon.json 
+{ 
+    "registry-mirrors": [ 
+    "https://rw21enj1.mirror.aliyuncs.com",
+    "https://dockerhub.azk8s.cn",
+    "https://reg-mirror.qiniu.com",
+    "https://hub-mirror.c.163.com",
+    "https://docker.mirrors.ustc.edu.cn"
+    ]
+}
+EOF
+sudo systemctl daemon-reload
+sudo reboot
+```

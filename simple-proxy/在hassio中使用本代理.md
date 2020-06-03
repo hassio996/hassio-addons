@@ -10,6 +10,7 @@
 
 ## 【设置docker镜像下载的proxy】
 
+*注：作为在中国大陆加速docker下载的另一种方法，你也可以直接[使用国内的docker下载点](../使用国内的docker下载点.md)*
 
 - 登录底层操作系统，运行`sudo mkdir -p /etc/systemd/system/docker.service.d`
 - 创建文件`/etc/systemd/system/docker.service.d/http-proxy.conf`，内容：
