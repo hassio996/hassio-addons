@@ -2,6 +2,8 @@
 
 以下内容阐述如何通过本代理，完成add-on的下载与升级，以及HomeAssistant依赖python库的安装下载。
 
+*注：作为在中国大陆加速的另一种方法，你也可以直接[使用国内的下载点](../在hassio中使用中国大陆下载点.md)*
+
 ## 【安装并启动本代理】
 
 安装并启动`add-on：Simple Proxy`
@@ -9,8 +11,6 @@
 *注：在仓库`https://github.com/zhujisheng/hassio-addons`中*
 
 ## 【设置docker镜像下载的proxy】
-
-*注：作为在中国大陆加速docker下载的另一种方法，你也可以直接[使用国内的docker下载点](../使用国内的docker下载点.md)*
 
 - 登录底层操作系统，运行`sudo mkdir -p /etc/systemd/system/docker.service.d`
 - 创建文件`/etc/systemd/system/docker.service.d/http-proxy.conf`，内容：

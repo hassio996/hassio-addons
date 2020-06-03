@@ -1,8 +1,8 @@
-# 使用国内的docker下载点
+# 在hassio中使用中国大陆下载点
 
-通过设置docker的下载点为国内的点，可以加速hassio安装过程中下载docker镜像的速度——如果你是在中国大陆的话。
+通过设置docker的下载点为国内的点，可以加速hassio安装过程中下载docker镜像的速度；通过设置pip安装下载点为国内的点，可以加速python依赖包的安装——如果你是在中国大陆的话。
 
-操作：
+## 【设置docker镜像下载点】
 
 - 编辑文件`/etc/docker/daemon.json`，内容：
 
@@ -51,3 +51,18 @@ EOF
 sudo systemctl daemon-reload
 sudo reboot
 ```
+
+## 【HomeAssistant Core中设置python依赖库下载点】
+
+- 进入HomeAssistant容器： `docker exec -it homeassistant bash`
+
+  *注：如果正在升级HomeAssistant，需要新的HomeAssiantant容器启动后才能进入，但不必等待HomeAssisant前端可访问。**
+
+- 创建文件`/etc/pip.conf`，内容：
+
+  ```
+  [global]
+  index-url=https://mirrors.aliyun.com/pypi/simple/
+  ```
+
+- 重新启动homeassistant，或重启整个机器
