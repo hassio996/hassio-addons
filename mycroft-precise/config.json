@@ -1,6 +1,6 @@
 {
   "name": "Mycroft Precise",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "slug": "mycroft_precise",
   "description": "a wake word listener",
   "url": "https://github.com/zhujisheng/hassio-addons/",
@@ -14,12 +14,14 @@
   "options": {
     "models":[
       {
+        "input_device": "local_default",
         "model_file": "/cough.pb",
         "threshold": 0.7,
         "event_type": "cough_heard",
         "show_match_level_realtime": false
       },
       {
+        "input_device": "str",
         "model_file": "/hey-mycroft.pb",
         "threshold": 0.4,
         "event_type": "hey_mycroft_heard",

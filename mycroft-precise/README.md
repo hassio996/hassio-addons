@@ -1,47 +1,61 @@
 # Home Assistant Add-on: Mycroft Precise
 
-声音唤醒——当识别到某个声音时，生成一条HomeAssistant中的事件
+When some particular voice is caught, this add-on produce an event in HomeAssistant.
 
-## 关于
+## About
 
-[Mycroft Precise](https://github.com/MycroftAI/mycroft-precise)是一个基于神经网络的声音唤醒服务。
+[Mycroft Precise](https://github.com/MycroftAI/mycroft-precise)is a wake word listener service based on recurrent neural networks.
 
-本Add-on运行mycroft-precise，并且在识别到对应的声音后，在HomeAssistant中生成一条对应的事件。
+This Add-on is based on mycroft-precise. When it heard a particular voice, it produce an event in HomeAssistant.
 
-## 配置
+## Config
+
+#### `input_device`
+
+The audio input device.
+
+- The value can be `local_default`, which means to use the audio input device configed in the add-on configuration.
+
+- remote microphone: `ip:port`, for example`192.168.1.120:3344`
+
+There's more information about the remote microphone in the vedio lesson [HomeAssistant Practice](https://study.163.com/course/courseMain.htm?courseId=1006189053&share=2&shareId=400000000624093): [Remote Microphone Connected to HomeAssistant](https://study.163.com/course/courseLearn.htm?courseId=1006189053&share=2&shareId=400000000624093#/learn/video?lessonId=1279002359&courseId=1006189053)
+
+You can also find the documents and programs about remote mic [here](https://github.com/zhujisheng/Home-Assistant-DIY/blob/master/%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3%EF%BC%8821-30%EF%BC%89/24.%E8%BF%9C%E7%A8%8B%E9%BA%A6%E5%85%8B%E9%A3%8E.pdf), [here](https://github.com/zhujisheng/audio-reactive-led-strip), or [here](https://github.com/zhujisheng/audio-reactive-led-strip/tree/master/DistributedMicrophone).
 
 #### Option `model_file`
 
-唤醒词声音模型文件
+The model file of the wake voice.
 
-add-on中预置了文件`/cough.pb`和`/hey-mycroft.pb`，对应咳嗽声音与`嘿，麦克若福特`
+Model file `/cough.pb` and `/hey-mycroft.pb` are fre-put in the add-on, which is waked by the voice of cough, and the pronoucation of 'hey, mycroft'
 
 #### Option `threshold`
 
-触发事件的门槛值：当前声音与模型的匹配度大于门槛值时，会触发HomeAssistant中的事件
+The trigger threshold. If the match level of current audio and model is bigger than te thresold, an event will appear in HomeAssistant. 
 
-匹配度为0到1之间的数；门槛值可设置为0到1之间的数。
+Both the threshold and match level, are numbers between 0 and 1.
 
 #### Option `event_type`
 
-触发的HomeAssistant中的事件类型
+The event type appears in HomeAssistant.
 
 #### Option `show_match_level_realtime`
 
-是否在日志中输出当前声音的匹配度（每秒输出一次数据，日志需要刷新才会显示）
+Value `true` or `false`.
 
-此配置项可以用于调试，以确定合适的`threshold`值
+It's the switch to turn on the logger of current match level in Add-on, once per second.
 
-## 创建自己的唤醒音模型
+Notice: the logger can be used to determine the proper value of the option `threshold`, and the logger will only show after it's refreshed by hand.
 
-你可以创建并配置自己的唤醒音模型文件
+## Create Your Own Wake Voice Model File
 
-- 创建
+You can create your own wake voice model file in mycroft-precise.
 
-  参见：[https://github.com/MycroftAI/mycroft-precise/wiki/Training-your-own-wake-word](https://github.com/MycroftAI/mycroft-precise/wiki/Training-your-own-wake-word)
+- Creation
 
-- 配置
+  [https://github.com/MycroftAI/mycroft-precise/wiki/Training-your-own-wake-word](https://github.com/MycroftAI/mycroft-precise/wiki/Training-your-own-wake-word)
 
-  可以通过Add-on:Samba，将模型文件`xxxxx.pb`和`xxxxx.pb.params`（或者`xxx.net`)放置在共享的`share/`目录中
+- Configuration
 
-  在配置中，设置`model_file`为`/share/xxxxx.pb`(或者`/share/xxxxx.net`)
+  By using `Add-on:Samba`, you can put the model file `xxxxx.pb` and `xxxxx.pb.params`(or`xxx.net`) in the shared dir `share/`.
+
+  Configure the option `model_file`, set it to be `/share/xxxxx.pb`(or `/share/xxxxx.net`).
